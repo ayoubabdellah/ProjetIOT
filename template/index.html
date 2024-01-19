@@ -1,0 +1,58 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container-fluid py-4">
+
+
+
+      <div class="row mt-4">
+        <div class="ms-auto">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row">
+                <div class="col container">
+                  <div class="d-flex flex-column h-100 align-items-center ">
+                    <h5 class="font-weight-bolder text-info">Introduction</h5>
+                    <p class="mb-5 text-center">
+
+                      Bienvenue sur la page d'index de notre projet, qui se divise en cinq parties essentielles.</p>
+
+                    <h5 class="font-weight-bolder text-center text-primary">Part 1: Éléments Matériels et Objectifs du Projet</h5>
+                    <p class="mb-5 text-center">Cette section pose les bases en détaillant les outils de développement, les ressources matérielles, et les objectifs du projet, essentiels pour sa réussite.</p>
+
+                    <h5 class="font-weight-bolder text-center text-primary">Part 2: Développement d'Application Web avec Django RestApi</h5>
+                    <p class="mb-5 text-center">Cette partie guide à travers la création de l'application web en utilisant le framework Django RestApi, offrant des insights détaillés sur le processus de développement et des fonctionnalités telles que les notifications d'alarme.</p>
+
+                    <h5 class="font-weight-bolder text-center text-primary">Part 3: Création de PCB - De la Conception à la Fabrication : </h5>
+                    <p class="mb-5 text-center">Axée sur l'aspect matériel, cette section éclaire le processus de création du circuit imprimé (PCB), couvrant la conception électrique, la fabrication, et les meilleures pratiques pour garantir un PCB fonctionnel et de haute qualité.
+                    </p>
+
+                    <h5 class="font-weight-bolder text-center text-primary">Part 4:  Installation et Configuration du Dispositif Arduino :</h5>
+                    <p class="mb-5 text-center">En se concentrant sur l'intégration des dispositifs Arduino, cette partie guide à travers l'installation et la configuration, expliquant comment collecter des données de capteurs et les envoyer à l'application web.</p>
+
+                    <h5 class="font-weight-bolder text-center text-primary">Part 5: Déploiement de l'Application Web sur Django Anywhere : </h5>
+                    <p class="mb-5 text-center"> La dernière section détaille le processus complexe du déploiement de l'application web sur Django Anywhere, couvrant la configuration de l'environnement d'hébergement, le transfert de fichiers, et assurant un passage fluide du développement à l'application en ligne.</p>
+
+                  </div>
+                </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block scripts %}
+
+{% endblock scripts %}

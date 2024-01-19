@@ -1,0 +1,113 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div>
+                        <img src="{% static 'img/dht.png' %}" class="avatar avatar-sm me-3 text-center" alt="dht">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm text-center">Nom</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div>
+                        <img src="{% static 'img/temperature.png' %}" class="avatar avatar-sm me-3 text-center" alt="Temperature">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm text-center">Temperature</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div>
+                        <img src="{% static 'img/humidity.png' %}" class="avatar avatar-sm me-3 text-center" alt="Humidity">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm text-center">Humidity</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div>
+                        <img src="{% static 'img/date.png' %}" class="avatar avatar-sm me-3 text-center" alt="Date">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm text-center">Date</h6>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0 text-center">DHT 11</p>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0 text-center">{{ valeurs.temp }}°c</p>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0 text-center">{{ valeurs.hum }}%</p>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0 text-center">{{ valeurs.date }}</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <button id='csv' class="btn btn-info">Télecharger </button>
+{% include "includes/footer.html" %}
+  </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var selectEl = document.getElementById('mon_select');
+
+        if (selectEl) {
+            selectEl.addEventListener('change', function () {
+                document.getElementById('my-form').submit();
+            });
+        }
+
+        var downloadButton = document.getElementById('csv');
+        if (downloadButton) {
+            downloadButton.addEventListener('click', function () {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/download_csv/', true);
+                xhr.responseType = 'blob';
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        var url = window.URL.createObjectURL(xhr.response);
+                        var a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'model_values.csv';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    }
+                };
+                xhr.send();
+            });
+        }
+    });
+</script>
+{% endblock content %}

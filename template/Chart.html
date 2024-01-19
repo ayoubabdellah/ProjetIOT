@@ -1,0 +1,135 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .graphique-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .navb {
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        margin-right: 10px;
+    }
+
+    .graphique-temp,
+    .graphique-hum {
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="graphique-container">
+    <div class="navb">
+        <button id="aujourdhui-link" class="btn btn-info">Historique d'Aujourd'hui</button>
+        <button id="semaine-link" class="btn btn-info">Historique de cette semaine</button>
+        <button id="mois-link" class="btn btn-info">Historique de ce mois</button>
+    </div>
+
+    <div class="graphique-temp">
+        <canvas id="graphique-temp" height="220"></canvas>
+    </div>
+
+    <div class="graphique-hum">
+        <canvas id="graphique-hum" height="220"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script>
+    const updateStyles = (selector, borderColor) => {
+        const element = document.querySelector(selector);
+        if (element) {
+            element.style.border = `2px solid ${borderColor}`;
+            element.style.borderRadius = '10px';
+            element.style.padding = '15px';
+            element.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
+        }
+    };
+
+    const updateChart = (chartId, backgroundColor, borderColor, pointStyle, pointRadius, pointBorderColor, dataValues, callback) => {
+        fetch(callback)
+            .then(response => response.json())
+            .then(data => {
+                const labels = data.temps.slice(-27);
+                const values = data.temperature.slice(-27);
+                const ctx = document.getElementById(chartId).getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'La valeur de Température',
+                            data: values,
+                            backgroundColor: backgroundColor,
+                            borderColor: borderColor,
+                            borderWidth: 1,
+                            pointStyle: pointStyle,
+                            pointRadius: pointRadius,
+                            pointBorderColor: pointBorderColor,
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    callback: function (value) {
+                                        return value + '°';
+                                    }
+                                }
+                            }],
+                            xAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    display: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            });
+    };
+
+    document.getElementById('aujourdhui-link').addEventListener('click', () => {
+        updateStyles('.graphique-temp', '#6dbb4d');
+        updateStyles('.graphique-hum', '#6dbb4d');
+        updateChart('graphique-temp', 'rgba(173, 216, 230, 0.2)', 'rgba(30, 144, 255, 0.8)', 'circle', 5, 'blue', 'chart-data-jour', '/chart-data-jour/');
+        updateChart('graphique-hum', 'rgba(144, 238, 144, 0.2)', 'rgba(34, 139, 34, 0.8)', 'rect', 8, 'green', 'chart-data-jour', '/chart-data-jour/');
+    });
+      const addLinkEventListener = (linkId, dataValues, chartCallback) => {
+        document.getElementById(linkId).addEventListener('click', () => {
+            updateStyles('.graphique-temp', '#6dbb4d');
+            updateStyles('.graphique-hum', '#6dbb4d');
+            updateChart('graphique-temp', 'rgba(173, 216, 230, 0.2)', 'rgba(30, 144, 255, 0.8)', 'circle', 5, 'blue', dataValues, chartCallback);
+            updateChart('graphique-hum', 'rgba(144, 238, 144, 0.2)', 'rgba(34, 139, 34, 0.8)', 'rect', 8, 'green', dataValues, chartCallback);
+        });
+    };
+
+    // Ajoutez des événements pour les liens 'semaine' et 'mois'
+
+    addLinkEventListener('aujourdhui-link', 'temperature', '/chart-data-jour/');
+    addLinkEventListener('semaine-link', 'temperature', '/chart-data-semaine/');
+    addLinkEventListener('mois-link', 'temperature', '/chart-data-mois/');
+    // Initialisation avec les données par défaut
+    updateStyles('.graphique-temp', '#6dbb4d');
+    updateStyles('.graphique-hum', '#6dbb4d');
+    updateChart('graphique-temp', 'rgba(173, 216, 230, 0.2)', 'rgba(30, 144, 255, 0.8)', 'circle', 5, 'blue', 'chart-data', '/chart-data/');
+    updateChart('graphique-hum', 'rgba(144, 238, 144, 0.2)', 'rgba(34, 139, 34, 0.8)', 'rect', 8, 'green', 'chart-data', '/chart-data/');
+</script>
+
+    </script>
+</div>
+
+{% endblock content %}
